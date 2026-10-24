@@ -32,7 +32,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.wa2c.android.cifsdocumentsprovider.common.values.ImportOption
 import com.wa2c.android.cifsdocumentsprovider.common.values.PASSWORD_LENGTH_32
 import com.wa2c.android.cifsdocumentsprovider.presentation.R

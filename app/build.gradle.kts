@@ -2,7 +2,6 @@ import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt.android)
 }
@@ -12,6 +11,7 @@ val appPackageId: String by rootProject.extra
 val javaVersion: JavaVersion by rootProject.extra
 val androidCompileSdk: Int by rootProject.extra
 val androidMinSdk: Int by rootProject.extra
+val androidTargetSdk: Int by rootProject.extra
 val appVersionName: String by rootProject.extra
 val appVersionCode: Int by rootProject.extra
 
@@ -31,7 +31,7 @@ android {
     defaultConfig {
         applicationId = appPackageId
         minSdk = androidMinSdk
-        targetSdk = androidCompileSdk
+        targetSdk = androidTargetSdk
         versionCode = appVersionCode
         versionName = appVersionName
 
@@ -70,11 +70,6 @@ android {
         }
     }
 
-    kotlin {
-        jvmToolchain {
-            languageVersion.set(JavaLanguageVersion.of(javaVersion.majorVersion))
-        }
-    }
 
     packaging {
         // For commons-vfs2-jackrabbit2

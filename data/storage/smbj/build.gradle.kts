@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
 }
 
 val applicationId: String by rootProject.extra
@@ -24,11 +23,6 @@ android {
         targetCompatibility = javaVersion
     }
 
-    kotlin {
-        jvmToolchain {
-            languageVersion.set(JavaLanguageVersion.of(javaVersion.majorVersion))
-        }
-    }
 }
 
 dependencies {
