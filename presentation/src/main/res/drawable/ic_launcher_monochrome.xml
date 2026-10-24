@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Themed icon (Android 13+): line version of the foreground -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:strokeColor="#FF000000"
+        android:strokeWidth="3"
+        android:strokeLineJoin="round"
+        android:pathData="M34,37h11.5l4,4h22.5a4,4 0,0 1,4 4v24a4,4 0,0 1,-4 4h-38a4,4 0,0 1,-4 -4v-28a4,4 0,0 1,4 -4z" />
+    <path
+        android:strokeColor="#FF000000"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M54,54.5v5M45,66v-6.5h18v6.5" />
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M54,49.5m-4,0a4,4 0,1 1,8 0a4,4 0,1 1,-8 0M45,66.5m-3.5,0a3.5,3.5 0,1 1,7 0a3.5,3.5 0,1 1,-7 0M63,66.5m-3.5,0a3.5,3.5 0,1 1,7 0a3.5,3.5 0,1 1,-7 0" />
+</vector>

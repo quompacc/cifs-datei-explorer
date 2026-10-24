@@ -1,0 +1,4 @@
+New app icon:
+• Own design: light folder with network symbol on a blue gradient
+• Themed icon for Android 13+ (adapts to system colors)
+• New matching notification icon

@@ -1,0 +1,4 @@
+Neues App-Icon:
+• Eigenes Design: heller Ordner mit Netzwerk-Symbol auf blauem Verlauf
+• Themed Icon für Android 13+ (passt sich den Systemfarben an)
+• Neues, passendes Benachrichtigungs-Symbol

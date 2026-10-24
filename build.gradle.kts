@@ -11,8 +11,8 @@ val javaVersion by extra (JavaVersion.VERSION_21)
 val androidCompileSdk by extra (35)
 val androidMinSdk by extra (26)
 // Version of CIFS Datei-Explorer (fork restarts at 1.0.0)
-val appVersionName by extra ("1.0.0")
-val appVersionCode by extra (1)
+val appVersionName by extra ("1.0.1")
+val appVersionCode by extra (2)
 
 plugins {
     alias(libs.plugins.kotlin.android) apply false
