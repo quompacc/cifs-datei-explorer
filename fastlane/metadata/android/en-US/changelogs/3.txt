@@ -1,0 +1,5 @@
+Technical update:
+• All libraries updated (Android Gradle Plugin 9, Kotlin 2.4, Compose, Hilt, Room)
+• SMB library smbj 0.15 and SFTP library jsch 2.28
+• Support for Android 16 (targetSdk 36)
+• License overview in settings uses Material 3 design
