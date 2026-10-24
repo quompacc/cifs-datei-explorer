@@ -20,4 +20,7 @@ include(":data:storage:smbj")
 include(":domain")
 include(":presentation")
 
-includeBuild("tools/string_converter")
+// Git submodule, only present after "git submodule update --init"
+if (file("tools/string_converter").list()?.isNotEmpty() == true) {
+    includeBuild("tools/string_converter")
+}

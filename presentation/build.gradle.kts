@@ -1,11 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.parcelize)
-    alias(libs.plugins.aboutlibraries)
+    alias(libs.plugins.aboutlibraries.android)
     alias(libs.plugins.paparazzi)
 }
 
@@ -30,11 +29,6 @@ android {
         targetCompatibility = javaVersion
     }
 
-    kotlin {
-        jvmToolchain {
-            languageVersion.set(JavaLanguageVersion.of(javaVersion.majorVersion))
-        }
-    }
     buildFeatures {
         compose = true
     }
@@ -66,16 +60,16 @@ dependencies {
     androidTestImplementation(composeBom)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.material.icons.core)
     implementation(libs.androidx.ui.tooling.preview)
     debugImplementation(libs.androidx.ui.tooling)
     implementation(libs.reorderable)
-    implementation(libs.accompanist.systemuicontroller)
     // Lifecycle
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     // Navigation
     implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.hilt.lifecycle.viewmodel.compose)
     // Worker
     implementation(libs.androidx.work.runtime)
     implementation(libs.guava) // to solve dependencies conflict
@@ -83,8 +77,7 @@ dependencies {
     // Util
 
     // OSS License
-    implementation(libs.aboutlibraries)
-    implementation(libs.aboutlibraries.compose)
+    implementation(libs.aboutlibraries.compose.m3)
 
     // Test
 

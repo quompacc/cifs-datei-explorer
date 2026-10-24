@@ -8,21 +8,32 @@ val applicationId by extra ("com.wa2c.android.cifsdocumentsprovider")
 // Installed app ID (own ID so the fork can be installed next to the original)
 val appPackageId by extra ("de.cifsdateiexplorer")
 val javaVersion by extra (JavaVersion.VERSION_21)
-val androidCompileSdk by extra (35)
+val androidCompileSdk by extra (37)
+val androidTargetSdk by extra (36)
 val androidMinSdk by extra (26)
 // Version of CIFS Datei-Explorer (fork restarts at 1.0.0)
 val appVersionName by extra ("1.0.1")
 val appVersionCode by extra (2)
 
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // AGP 9 has built-in Kotlin; this pins the Kotlin Gradle plugin to the catalog version
+        classpath(libs.kotlin.gradle.plugin)
+    }
+}
+
 plugins {
-    alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.kotlin.compose) apply false
     alias(libs.plugins.kotlin.parcelize) apply false
     alias(libs.plugins.kotlin.serialization) apply false
-    alias(libs.plugins.aboutlibraries) apply false
+    alias(libs.plugins.aboutlibraries.android) apply false
     alias(libs.plugins.hilt.android) apply false
     alias(libs.plugins.room) apply false
     alias(libs.plugins.paparazzi) apply false
@@ -37,8 +48,8 @@ allprojects {
     }
 }
 
-task("clean", Delete::class) {
-    delete = setOf(rootProject.buildDir)
+tasks.register<Delete>("clean") {
+    delete(rootProject.layout.buildDirectory)
 }
 
 tasks.register("convertString") {
