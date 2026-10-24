@@ -2,11 +2,14 @@ import android.content.res.Configuration
 import android.view.KeyEvent
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.material3.Checkbox
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.input.key.KeyEventType
@@ -15,11 +18,13 @@ import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.wa2c.android.cifsdocumentsprovider.presentation.ui.common.Theme
+import com.wa2c.android.cifsdocumentsprovider.presentation.ui.common.enabledStyle
 import com.wa2c.android.cifsdocumentsprovider.presentation.ui.common.moveFocusOnEnter
 
 /**
- * Input check
+ * Input check (switch row)
  */
 @Composable
 fun InputCheck(
@@ -30,16 +35,20 @@ fun InputCheck(
     onChange: (value: Boolean) -> Unit,
 ) {
     Row(
-        Modifier
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 56.dp)
             .toggleable(
                 value = value,
-                role = Role.Checkbox,
+                enabled = enabled,
+                role = Role.Switch,
                 onValueChange = {
                     onChange(!value)
                 }
             )
-            .padding(Theme.Sizes.M)
-            .fillMaxWidth()
+            .padding(horizontal = Theme.Sizes.M + Theme.Sizes.SS, vertical = Theme.Sizes.S)
+            .enabledStyle(enabled)
             .moveFocusOnEnter(focusManager)
             .onPreviewKeyEvent {
                 when (it.nativeKeyEvent.keyCode) {
@@ -49,23 +58,23 @@ fun InputCheck(
                         }
                         true
                     }
-
                     else -> {
                         false
                     }
                 }
             }
     ) {
-        Checkbox(
+        Text(
+            text = title,
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier
+                .weight(1f)
+                .padding(end = Theme.Sizes.M)
+        )
+        Switch(
             checked = value,
             enabled = enabled,
             onCheckedChange = null,
-        )
-        Text(
-            text = title,
-            Modifier
-                .weight(1f)
-                .padding(start = Theme.Sizes.S)
         )
     }
 }
@@ -80,11 +89,10 @@ fun InputCheck(
 private fun InputCheckPreview() {
     Theme.AppTheme {
         InputCheck(
-            title = "Title",
+            title = "Nur lesen",
             value = true,
             focusManager = LocalFocusManager.current,
-            enabled = true,
-        ) {
-        }
+            onChange = {},
+        )
     }
 }

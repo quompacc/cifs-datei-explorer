@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ui_home_subtitle">Netzwerkfreigaben in der Dateien-App</string>
+    <string name="ui_home_add_connection">Verbindung hinzufügen</string>
+    <string name="ui_home_empty_title">Noch keine Verbindungen</string>
+    <string name="ui_home_empty_message">Füge eine Netzwerkfreigabe hinzu, z.\u00A0B. dein NAS oder deinen PC. Sie erscheint dann direkt in der Dateien-App und in jedem Dateiauswahl-Dialog.</string>
+    <string name="ui_home_add_search_desc">SMB-Server im lokalen Netzwerk finden</string>
+    <string name="ui_home_add_input_desc">Adresse und Zugangsdaten selbst eintragen</string>
+    <string name="ui_home_hint">Tipp: Verbindung lange gedrückt halten, um sie zu verschieben.</string>
+    <string name="ui_edit_title_new">Neue Verbindung</string>
+    <string name="ui_edit_section_general">Allgemein</string>
+    <string name="ui_edit_section_auth">Anmeldung</string>
+    <string name="ui_edit_section_ssh">SSH-Schlüssel</string>
+    <string name="ui_edit_section_advanced">Erweitert</string>
+    <string name="ui_edit_copy">Kopieren</string>
+    <string name="ui_edit_tap_to_copy">Tippen zum Kopieren</string>
+    <string name="ui_edit_status_unchecked">Noch nicht getestet</string>
+    <string name="ui_settings_section_about">Über die App</string>
+    <string name="ui_settings_known_hosts_desc">Gespeicherte SSH-Serverschlüssel verwalten</string>
+    <string name="ui_settings_libraries_desc">Lizenzen der verwendeten Bibliotheken</string>
+    <string name="ui_settings_contributors_desc">Die Menschen hinter dieser App</string>
+    <string name="ui_settings_app_desc">Berechtigungen, Speicher und Benachrichtigungen</string>
+    <string name="ui_settings_export_desc">Alle Verbindungen verschlüsselt in eine Datei sichern</string>
+    <string name="ui_settings_import_desc">Verbindungen aus einer Sicherung wiederherstellen</string>
+    <string name="ui_host_searching">Lokales Netzwerk wird durchsucht…</string>
+    <string name="ui_host_empty">Keine Geräte gefunden</string>
+    <string name="ui_folder_current">Aktueller Ordner</string>
+</resources>

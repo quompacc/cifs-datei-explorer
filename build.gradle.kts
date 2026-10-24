@@ -3,12 +3,16 @@ import org.gradle.kotlin.dsl.extra
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 // Global Definition
+// Code namespace (Kotlin packages, kept from upstream)
 val applicationId by extra ("com.wa2c.android.cifsdocumentsprovider")
+// Installed app ID (own ID so the fork can be installed next to the original)
+val appPackageId by extra ("de.cifsdateiexplorer")
 val javaVersion by extra (JavaVersion.VERSION_21)
 val androidCompileSdk by extra (35)
 val androidMinSdk by extra (26)
-val appVersionName by extra ("2.4.0")
-val appVersionCode by extra (31)
+// Version of CIFS Datei-Explorer (fork restarts at 1.0.0)
+val appVersionName by extra ("1.0.0")
+val appVersionCode by extra (1)
 
 plugins {
     alias(libs.plugins.kotlin.android) apply false
@@ -21,6 +25,7 @@ plugins {
     alias(libs.plugins.aboutlibraries) apply false
     alias(libs.plugins.hilt.android) apply false
     alias(libs.plugins.room) apply false
+    alias(libs.plugins.paparazzi) apply false
 }
 
 allprojects {

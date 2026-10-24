@@ -1,6 +1,6 @@
 package com.wa2c.android.cifsdocumentsprovider.common.values
 
-const val URI_AUTHORITY = "com.wa2c.android.cifsdocumentsprovider.documents"
+const val URI_AUTHORITY = "de.cifsdateiexplorer.documents"
 
 const val URI_START = "://"
 const val URI_SEPARATOR = '/'

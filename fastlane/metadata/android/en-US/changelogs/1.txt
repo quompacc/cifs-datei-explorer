@@ -1,0 +1,6 @@
+First release of CIFS Datei-Explorer:
+• Completely redesigned UI (Material 3, Material You, dark mode)
+• Full German translation
+• New home screen with connection cards and quick start
+• Clearer connection editor with "Check connection" and "Save"
+• Own app ID: can be installed next to the original CIFS Documents Provider

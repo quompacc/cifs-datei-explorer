@@ -13,16 +13,31 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Surface
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import com.wa2c.android.cifsdocumentsprovider.presentation.ui.common.SectionCard
+import com.wa2c.android.cifsdocumentsprovider.presentation.ui.common.SectionHeader
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -79,7 +94,6 @@ import com.wa2c.android.cifsdocumentsprovider.presentation.ext.labelRes
 import com.wa2c.android.cifsdocumentsprovider.presentation.ext.messageRes
 import com.wa2c.android.cifsdocumentsprovider.presentation.ext.messageType
 import com.wa2c.android.cifsdocumentsprovider.presentation.ui.common.AppSnackbarHost
-import com.wa2c.android.cifsdocumentsprovider.presentation.ui.common.BottomButton
 import com.wa2c.android.cifsdocumentsprovider.presentation.ui.common.CommonDialog
 import com.wa2c.android.cifsdocumentsprovider.presentation.ui.common.DialogButton
 import com.wa2c.android.cifsdocumentsprovider.presentation.ui.common.LoadingBox
@@ -93,8 +107,6 @@ import com.wa2c.android.cifsdocumentsprovider.presentation.ui.common.showError
 import com.wa2c.android.cifsdocumentsprovider.presentation.ui.common.showPopup
 import com.wa2c.android.cifsdocumentsprovider.presentation.ui.edit.components.InputText
 import com.wa2c.android.cifsdocumentsprovider.presentation.ui.edit.components.KeyInputDialog
-import com.wa2c.android.cifsdocumentsprovider.presentation.ui.edit.components.SectionTitle
-import com.wa2c.android.cifsdocumentsprovider.presentation.ui.edit.components.SubsectionTitle
 import com.wa2c.android.cifsdocumentsprovider.presentation.ui.edit.components.UriText
 import kotlinx.coroutines.launch
 import java.nio.charset.Charset
@@ -325,7 +337,7 @@ fun EditScreen(
  */
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
-private fun EditScreenContainer(
+internal fun EditScreenContainer(
     snackbarHostState: SnackbarHostState,
     isNew: Boolean,
     isBusy: Boolean,
@@ -341,47 +353,36 @@ private fun EditScreenContainer(
     onClickSave: () -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(id = R.string.edit_title)) },
+                title = {
+                    Text(
+                        text = if (isNew) {
+                            stringResource(id = R.string.ui_edit_title_new)
+                        } else {
+                            connectionState.value.name.ifEmpty { stringResource(id = R.string.edit_title) }
+                        },
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                },
                 colors = getAppTopAppBarColors(),
+                scrollBehavior = scrollBehavior,
                 actions = {
-                    BadgedBox(
-                        badge = {
-                            Box(
-                                modifier = Modifier
-                                    .size(Theme.Sizes.M)
-                                    .offset(x = (-Theme.Sizes.M), y = Theme.Sizes.M)
-                            ) {
-                                Icon(
-                                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_check_bg),
-                                    contentDescription = "",
-                                    tint = MaterialTheme.colorScheme.onSurface,
-                                )
-                                MessageIcon(type = connectionResult?.messageType)
-                            }
-                        }
-                    ) {
+                    if (!isNew) {
                         IconButton(
-                            onClick = onClickCheckConnection,
+                            onClick = onClickDelete,
                             enabled = isBusy.not(),
                         ) {
                             Icon(
-                                imageVector = ImageVector.vectorResource(id = R.drawable.ic_folder_check),
-                                contentDescription = stringResource(id = R.string.edit_check_connection_button),
+                                imageVector = ImageVector.vectorResource(id = R.drawable.ic_delete),
+                                contentDescription = stringResource(id = R.string.general_delete),
                             )
                         }
-                    }
-                    IconButton(
-                        onClick = onClickDelete,
-                        enabled = isBusy.not(),
-                    ) {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_delete),
-                            contentDescription = stringResource(id = R.string.general_delete),
-                        )
                     }
                 },
                 navigationIcon = {
@@ -394,6 +395,14 @@ private fun EditScreenContainer(
                 },
             )
         },
+        bottomBar = {
+            EditBottomBar(
+                isBusy = isBusy,
+                connectionResult = connectionResult,
+                onClickCheckConnection = onClickCheckConnection,
+                onClickSave = onClickSave,
+            )
+        },
         snackbarHost = { AppSnackbarHost(snackbarHostState) }
     ) { paddingValues ->
         if (connectionState.value.isInvalid) {
@@ -402,42 +411,27 @@ private fun EditScreenContainer(
 
         Box(
             modifier = Modifier
-                .fillMaxHeight()
+                .fillMaxSize()
                 .padding(paddingValues)
         ) {
             Column(
                 Modifier
                     .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
+                    .padding(bottom = Theme.Sizes.L)
             ) {
-                Column(
-                    Modifier
-                        .fillMaxWidth()
-                        .verticalScroll(rememberScrollState())
-                        .padding(Theme.Sizes.ScreenMargin)
-                        .weight(1f)
-                ) {
-                    val protocol = connectionState.value.storage.protocol
+                val connection = connectionState.value
+                val protocol = connection.storage.protocol
 
-                    // ID
-                    InputText(
-                        title = stringResource(id = R.string.edit_id_title),
-                        hint = stringResource(id = R.string.edit_id_hint),
-                        value = connectionState.value.id,
-                        focusManager = focusManager,
-                        enabled = isNew,
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Text,
-                            imeAction = ImeAction.Next,
-                        ),
-                    ) {
-                        connectionState.value = connectionState.value.copy(id = it ?: "")
-                    }
-
+                // General
+                SectionHeader(text = stringResource(id = R.string.ui_edit_section_general))
+                SectionCard {
+                    Spacer(Modifier.height(Theme.Sizes.S))
                     // Name
                     InputText(
                         title = stringResource(id = R.string.edit_name_title),
                         hint = stringResource(id = R.string.edit_name_hint),
-                        value = connectionState.value.name,
+                        value = connection.name,
                         focusManager = focusManager,
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text,
@@ -452,37 +446,23 @@ private fun EditScreenContainer(
                         title = stringResource(id = R.string.edit_storage_title),
                         items = StorageType.entries
                             .map { OptionItem(it, stringResource(id = it.labelRes)) },
-                        value = connectionState.value.storage,
+                        value = connection.storage,
                         focusManager = focusManager,
                     ) {
                         connectionState.value = connectionState.value.copy(storage = it)
                     }
+                    Spacer(Modifier.height(Theme.Sizes.S))
+                }
 
-                    SectionTitle(
-                        text = stringResource(id = R.string.edit_settings_section_title),
-                    )
-
-                    // Domain
-                    if (protocol == ProtocolType.SMB) {
-                        InputText(
-                            title = stringResource(id = R.string.edit_domain_title),
-                            hint = stringResource(id = R.string.edit_domain_hint),
-                            value = connectionState.value.domain,
-                            focusManager = focusManager,
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Uri,
-                                imeAction = ImeAction.Next,
-                            ),
-                        ) {
-                            connectionState.value = connectionState.value.copy(domain = it)
-                        }
-                    }
-
+                // Server
+                SectionHeader(text = stringResource(id = R.string.edit_settings_section_title))
+                SectionCard {
+                    Spacer(Modifier.height(Theme.Sizes.S))
                     // Host
                     InputText(
                         title = stringResource(id = R.string.edit_host_title),
                         hint = stringResource(id = R.string.edit_host_hint),
-                        value = connectionState.value.host,
+                        value = connection.host,
                         focusManager = focusManager,
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Uri,
@@ -498,7 +478,7 @@ private fun EditScreenContainer(
                     InputText(
                         title = stringResource(id = R.string.edit_port_title),
                         hint = stringResource(id = R.string.edit_port_hint),
-                        value = connectionState.value.port,
+                        value = connection.port,
                         focusManager = focusManager,
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Number,
@@ -507,35 +487,95 @@ private fun EditScreenContainer(
                     ) {
                         connectionState.value = connectionState.value.copy(port = it)
                     }
-                    
-                    // Enable DFS
+
+                    // Domain
                     if (protocol == ProtocolType.SMB) {
-                        InputCheck(
-                            title = stringResource(id = R.string.edit_enable_dfs_label),
-                            value = connectionState.value.enableDfs,
+                        InputText(
+                            title = stringResource(id = R.string.edit_domain_title),
+                            hint = stringResource(id = R.string.edit_domain_hint),
+                            value = connection.domain,
+                            focusManager = focusManager,
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Uri,
+                                imeAction = ImeAction.Next,
+                            ),
+                        ) {
+                            connectionState.value = connectionState.value.copy(domain = it)
+                        }
+                    }
+
+                    // Folder
+                    InputText(
+                        title = stringResource(id = R.string.edit_folder_title),
+                        hint = stringResource(id = R.string.edit_folder_hint),
+                        value = connection.folder,
+                        focusManager = focusManager,
+                        iconResource = R.drawable.ic_folder_open,
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Uri,
+                            imeAction = ImeAction.Next,
+                        ),
+                        onClickButton = { onClickSelectFolder() }
+                    ) {
+                        connectionState.value = connectionState.value.copy(folder = it)
+                    }
+
+                    // Encoding
+                    if (protocol == ProtocolType.FTP || protocol == ProtocolType.FTPS || protocol == ProtocolType.SFTP) {
+                        InputOption(
+                            title = stringResource(id = R.string.edit_encoding_title),
+                            items = Charset.availableCharsets()
+                                .map { OptionItem(it.key, it.value.name()) },
+                            value = connection.encoding,
                             focusManager = focusManager,
                         ) {
-                            connectionState.value = connectionState.value.copy(enableDfs = it)
+                            connectionState.value = connectionState.value.copy(encoding = it)
                         }
+                    }
+                    Spacer(Modifier.height(Theme.Sizes.S))
 
-                        if (connectionState.value.storage == StorageType.SMBJ) {
-                            InputCheck(
-                                title = stringResource(id = R.string.edit_enable_encryption_label),
-                                value = connectionState.value.enableEncryption,
-                                focusManager = focusManager,
-                            ) {
-                                connectionState.value = connectionState.value.copy(enableEncryption = it)
-                            }
+                    // FTP Mode
+                    if (protocol == ProtocolType.FTP || protocol == ProtocolType.FTPS) {
+                        InputCheck(
+                            title = stringResource(id = R.string.edit_ftp_mode_title),
+                            value = connection.isFtpActiveMode,
+                            focusManager = focusManager,
+                        ) {
+                            connectionState.value = connectionState.value.copy(isFtpActiveMode = it)
                         }
+                    }
+
+                    // Implicit SSL/TLS Mode
+                    if (protocol == ProtocolType.FTPS) {
+                        InputCheck(
+                            title = stringResource(id = R.string.edit_ftps_implicit_label),
+                            value = connection.isFtpsImplicit,
+                            focusManager = focusManager,
+                        ) {
+                            connectionState.value = connectionState.value.copy(isFtpsImplicit = it)
+                        }
+                    }
+                }
+
+                // Sign-in
+                SectionHeader(text = stringResource(id = R.string.ui_edit_section_auth))
+                SectionCard {
+                    // Anonymous
+                    InputCheck(
+                        title = stringResource(id = R.string.edit_anonymous_label),
+                        value = connection.anonymous,
+                        focusManager = focusManager,
+                    ) {
+                        connectionState.value = connectionState.value.copy(anonymous = it)
                     }
 
                     // User
                     InputText(
                         title = stringResource(id = R.string.edit_user_title),
                         hint = stringResource(id = R.string.edit_user_hint),
-                        value = connectionState.value.user,
+                        value = connection.user,
                         focusManager = focusManager,
-                        enabled = !connectionState.value.anonymous,
+                        enabled = !connection.anonymous,
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Email,
                             imeAction = ImeAction.Next,
@@ -549,9 +589,9 @@ private fun EditScreenContainer(
                     InputText(
                         title = stringResource(id = R.string.edit_password_title),
                         hint = stringResource(id = R.string.edit_password_hint),
-                        value = connectionState.value.password,
+                        value = connection.password,
                         focusManager = focusManager,
-                        enabled = !connectionState.value.anonymous,
+                        enabled = !connection.anonymous,
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Password,
                             imeAction = ImeAction.Next,
@@ -560,63 +600,61 @@ private fun EditScreenContainer(
                     ) {
                         connectionState.value = connectionState.value.copy(password = it)
                     }
+                    Spacer(Modifier.height(Theme.Sizes.S))
+                }
 
-                    // Anonymous
-                    InputCheck(
-                        title = stringResource(id = R.string.edit_anonymous_label),
-                        value = connectionState.value.anonymous,
-                        focusManager = focusManager,
-                    ) {
-                        connectionState.value = connectionState.value.copy(anonymous = it)
-                    }
-
-                    // Key
-                    if (protocol == ProtocolType.SFTP) {
+                // Key
+                if (protocol == ProtocolType.SFTP) {
+                    SectionHeader(text = stringResource(id = R.string.ui_edit_section_ssh))
+                    SectionCard {
+                        Spacer(Modifier.height(Theme.Sizes.S))
                         var expanded by remember { mutableStateOf(false) }
-                        InputText(
-                            title = stringResource(id = R.string.edit_key_title),
-                            hint = stringResource(id = R.string.edit_key_hint),
-                            value = if (!connectionState.value.keyData.isNullOrEmpty()) {
-                                // import
-                                stringResource(id = R.string.edit_key_text_import)
-                            } else if (!connectionState.value.keyFileUri.isNullOrEmpty()) {
-                                // file
-                                val name = connectionState.value.keyFileUri?.fileName ?: ""
-                                stringResource(id = R.string.edit_key_text_file) +
-                                        if (name.isNotEmpty()) " ($name)" else ""
-                            } else {
-                                // none
-                                stringResource(id = R.string.edit_key_text_none)
-                            },
-                            focusManager = focusManager,
-                            readonly = true,
-                            iconResource = R.drawable.ic_key,
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Uri,
-                                imeAction = ImeAction.Next,
-                            ),
-                            onClickButton = {
-                                expanded = true
-                            }
-                        ) { }
+                        Box {
+                            InputText(
+                                title = stringResource(id = R.string.edit_key_title),
+                                hint = stringResource(id = R.string.edit_key_hint),
+                                value = if (!connection.keyData.isNullOrEmpty()) {
+                                    // import
+                                    stringResource(id = R.string.edit_key_text_import)
+                                } else if (!connection.keyFileUri.isNullOrEmpty()) {
+                                    // file
+                                    val name = connection.keyFileUri?.fileName ?: ""
+                                    stringResource(id = R.string.edit_key_text_file) +
+                                            if (name.isNotEmpty()) " ($name)" else ""
+                                } else {
+                                    // none
+                                    stringResource(id = R.string.edit_key_text_none)
+                                },
+                                focusManager = focusManager,
+                                readonly = true,
+                                iconResource = R.drawable.ic_key,
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Uri,
+                                    imeAction = ImeAction.Next,
+                                ),
+                                onClickButton = {
+                                    expanded = true
+                                }
+                            ) { }
 
-                        Box(
-                            modifier = Modifier
-                                .align(Alignment.End),
-                        ) {
-                            DropdownMenu(
-                                expanded = expanded,
-                                onDismissRequest = { expanded = false },
+                            Box(
+                                modifier = Modifier
+                                    .align(Alignment.BottomEnd)
+                                    .padding(end = Theme.Sizes.M),
                             ) {
-                                KeyInputType.entries.forEach {
-                                    DropdownMenuItem(
-                                        text = { Text(text = stringResource(id = it.labelRes)) },
-                                        onClick = {
-                                            onClickImportKey(it)
-                                            expanded = false
-                                        },
-
-                                    )
+                                DropdownMenu(
+                                    expanded = expanded,
+                                    onDismissRequest = { expanded = false },
+                                ) {
+                                    KeyInputType.entries.forEach {
+                                        DropdownMenuItem(
+                                            text = { Text(text = stringResource(id = it.labelRes)) },
+                                            onClick = {
+                                                onClickImportKey(it)
+                                                expanded = false
+                                            },
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -625,7 +663,7 @@ private fun EditScreenContainer(
                         InputText(
                             title = stringResource(id = R.string.edit_passphrase_title),
                             hint = stringResource(id = R.string.edit_passphrase_hint),
-                            value = connectionState.value.keyPassphrase,
+                            value = connection.keyPassphrase,
                             focusManager = focusManager,
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Password,
@@ -639,75 +677,40 @@ private fun EditScreenContainer(
                         // Ignore known hosts
                         InputCheck(
                             title = stringResource(id = R.string.edit_ignore_known_hosts_label),
-                            value = connectionState.value.ignoreKnownHosts,
+                            value = connection.ignoreKnownHosts,
                             focusManager = focusManager
                         ) {
                             connectionState.value = connectionState.value.copy(ignoreKnownHosts = it)
                         }
                     }
+                }
 
-
-                    // Encoding
-                    if (protocol == ProtocolType.FTP || protocol == ProtocolType.FTPS || protocol == ProtocolType.SFTP) {
-                        InputOption(
-                            title = stringResource(id = R.string.edit_encoding_title),
-                            items = Charset.availableCharsets()
-                                .map { OptionItem(it.key, it.value.name()) },
-                            value = connectionState.value.encoding,
-                            focusManager = focusManager,
-                        ) {
-                            connectionState.value = connectionState.value.copy(encoding = it)
-                        }
-                    }
-
-                    // FTP Mode
-                    if (protocol == ProtocolType.FTP || protocol == ProtocolType.FTPS) {
-                        InputCheck(
-                            title = stringResource(id = R.string.edit_ftp_mode_title),
-                            value = connectionState.value.isFtpActiveMode,
-                            focusManager = focusManager,
-                        ) {
-                            connectionState.value = connectionState.value.copy(isFtpActiveMode = it)
-                        }
-                    }
-
-                    // Implicit SSL/TLS Mode
-                    if (protocol == ProtocolType.FTPS) {
-                        InputCheck(
-                            title = stringResource(id = R.string.edit_ftps_implicit_label),
-                            value = connectionState.value.isFtpsImplicit,
-                            focusManager = focusManager,
-                        ) {
-                            connectionState.value = connectionState.value.copy(isFtpsImplicit = it)
-                        }
-                    }
-
-                    // Folder
-                    InputText(
-                        title = stringResource(id = R.string.edit_folder_title),
-                        hint = stringResource(id = R.string.edit_folder_hint),
-                        value = connectionState.value.folder,
-                        focusManager = focusManager,
-                        iconResource = R.drawable.ic_folder,
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Uri,
-                            imeAction = ImeAction.Next,
-                        ),
-                        onClickButton = { onClickSelectFolder() }
-                    ) {
-                        connectionState.value = connectionState.value.copy(folder = it)
-                    }
-
-                    // Option
-
-                    SectionTitle(
-                        text = stringResource(id = R.string.edit_option_section_title),
-                    )
-
+                // Option
+                SectionHeader(text = stringResource(id = R.string.edit_option_section_title))
+                SectionCard {
                     if (protocol == ProtocolType.SMB) {
+                        // Enable DFS
+                        InputCheck(
+                            title = stringResource(id = R.string.edit_enable_dfs_label),
+                            value = connection.enableDfs,
+                            focusManager = focusManager,
+                        ) {
+                            connectionState.value = connectionState.value.copy(enableDfs = it)
+                        }
+
+                        if (connection.storage == StorageType.SMBJ) {
+                            InputCheck(
+                                title = stringResource(id = R.string.edit_enable_encryption_label),
+                                value = connection.enableEncryption,
+                                focusManager = focusManager,
+                            ) {
+                                connectionState.value = connectionState.value.copy(enableEncryption = it)
+                            }
+                        }
+
                         InputCheck(
                             title = stringResource(id = R.string.edit_option_safe_transfer_label),
-                            value = connectionState.value.optionSafeTransfer,
+                            value = connection.optionSafeTransfer,
                             focusManager = focusManager,
                         ) {
                             connectionState.value = connectionState.value.copy(optionSafeTransfer = it)
@@ -716,7 +719,7 @@ private fun EditScreenContainer(
 
                     InputCheck(
                         title = stringResource(id = R.string.edit_option_read_only_label),
-                        value = connectionState.value.optionReadOnly,
+                        value = connection.optionReadOnly,
                         focusManager = focusManager,
                     ) {
                         connectionState.value = connectionState.value.copy(optionReadOnly = it)
@@ -724,7 +727,7 @@ private fun EditScreenContainer(
 
                     InputCheck(
                         title = stringResource(id = R.string.edit_option_extension_label),
-                        value = connectionState.value.optionAddExtension,
+                        value = connection.optionAddExtension,
                         focusManager = focusManager,
                     ) {
                         connectionState.value = connectionState.value.copy(optionAddExtension = it)
@@ -732,48 +735,54 @@ private fun EditScreenContainer(
 
                     InputMultiSelect(
                         title = stringResource(id = R.string.edit_option_thumbnail_label),
-                        items =  ThumbnailType.entries.map { OptionItem(it, stringResource(id = it.labelRes)) },
+                        items = ThumbnailType.entries.map { OptionItem(it, stringResource(id = it.labelRes)) },
                         emptyLabel = stringResource(id = R.string.edit_option_thumbnail_disabled),
-                        values = connectionState.value.optionThumbnailTypes.toSet(),
+                        values = connection.optionThumbnailTypes.toSet(),
                         focusManager = focusManager,
                         enabled = true,
                     ) {
                         connectionState.value = connectionState.value.copy(optionThumbnailTypes = it.toList())
                     }
+                    Spacer(Modifier.height(Theme.Sizes.S))
+                }
 
-                    // URI
-
-                    SectionTitle(
-                        text = stringResource(id = R.string.edit_info_section_title),
-                    )
+                // Advanced / Information
+                SectionHeader(text = stringResource(id = R.string.ui_edit_section_advanced))
+                SectionCard {
+                    Spacer(Modifier.height(Theme.Sizes.S))
+                    // ID
+                    InputText(
+                        title = stringResource(id = R.string.edit_id_title),
+                        hint = stringResource(id = R.string.edit_id_hint),
+                        value = connection.id,
+                        focusManager = focusManager,
+                        enabled = isNew,
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Next,
+                        ),
+                    ) {
+                        connectionState.value = connectionState.value.copy(id = it ?: "")
+                    }
 
                     // Storage URI
-                    SubsectionTitle(
-                        text = stringResource(id = R.string.edit_storage_uri_title),
-                    )
-
                     UriText(
-                        uriText = connectionState.value.uri.text,
+                        title = stringResource(id = R.string.edit_storage_uri_title),
+                        uriText = connection.uri.text,
                         onCopyToClipboard = onCopyToClipboard,
                     )
 
                     // Shared URI
-                    SubsectionTitle(
-                        text = stringResource(id = R.string.edit_provider_uri_title),
-                    )
-                    val sharedUri =  DocumentId.fromConnection(connectionState.value.id)?.takeIf { !it.isRoot }?.let{
+                    val sharedUri =  DocumentId.fromConnection(connection.id)?.takeIf { !it.isRoot }?.let{
                         "content$URI_START$URI_AUTHORITY/tree/${Uri.encode(it.idText)}"
                     } ?: ""
                     UriText(
+                        title = stringResource(id = R.string.edit_provider_uri_title),
                         uriText = sharedUri,
                         onCopyToClipboard = onCopyToClipboard,
                     )
+                    Spacer(Modifier.height(Theme.Sizes.S))
                 }
-
-                BottomButton(
-                    label = stringResource(id = R.string.edit_save_button),
-                    onClick = onClickSave,
-                )
             }
 
             LoadingBox(isLoading = isBusy)
@@ -782,6 +791,62 @@ private fun EditScreenContainer(
 
     // Back button
     BackHandler { onClickBack() }
+}
+
+/**
+ * Bottom action bar
+ */
+@Composable
+private fun EditBottomBar(
+    isBusy: Boolean,
+    connectionResult: ConnectionResult?,
+    onClickCheckConnection: () -> Unit,
+    onClickSave: () -> Unit,
+) {
+    Surface(
+        color = MaterialTheme.colorScheme.surfaceContainer,
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(Theme.Sizes.M),
+            modifier = Modifier
+                .navigationBarsPadding()
+                .imePadding()
+                .padding(horizontal = Theme.Sizes.M, vertical = 12.dp)
+        ) {
+            OutlinedButton(
+                onClick = onClickCheckConnection,
+                enabled = !isBusy,
+                contentPadding = PaddingValues(horizontal = Theme.Sizes.M, vertical = 12.dp),
+                modifier = Modifier.weight(1f),
+            ) {
+                Box(Modifier.size(18.dp)) {
+                    MessageIcon(type = connectionResult?.messageType)
+                }
+                Spacer(Modifier.width(Theme.Sizes.S))
+                Text(
+                    text = stringResource(id = R.string.edit_check_connection_button),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+            Button(
+                onClick = onClickSave,
+                enabled = !isBusy,
+                contentPadding = PaddingValues(horizontal = Theme.Sizes.L, vertical = 12.dp),
+                modifier = Modifier.weight(1f),
+            ) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_save),
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp),
+                )
+                Spacer(Modifier.width(Theme.Sizes.S))
+                Text(text = stringResource(id = R.string.edit_save_button))
+            }
+        }
+    }
 }
 
 /**

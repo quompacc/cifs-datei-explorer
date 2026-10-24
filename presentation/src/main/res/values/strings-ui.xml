@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Strings added by the UI redesign (translated in values-de only for now). -->
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+    <string name="ui_home_subtitle">Network shares in your Files app</string>
+    <string name="ui_home_add_connection">Add connection</string>
+    <string name="ui_home_empty_title">No connections yet</string>
+    <string name="ui_home_empty_message">Add a network share (e.g. your NAS or PC). It will then show up directly in the Files app and in every file picker.</string>
+    <string name="ui_home_add_search_desc">Find SMB servers in your local network</string>
+    <string name="ui_home_add_input_desc">Enter address and credentials yourself</string>
+    <string name="ui_home_hint">Tip: long-press a connection to reorder it.</string>
+    <string name="ui_edit_title_new">New connection</string>
+    <string name="ui_edit_section_general">General</string>
+    <string name="ui_edit_section_auth">Sign-in</string>
+    <string name="ui_edit_section_ssh">SSH key</string>
+    <string name="ui_edit_section_advanced">Advanced</string>
+    <string name="ui_edit_copy">Copy</string>
+    <string name="ui_edit_tap_to_copy">Tap to copy</string>
+    <string name="ui_edit_status_unchecked">Not tested yet</string>
+    <string name="ui_settings_section_about">About</string>
+    <string name="ui_settings_known_hosts_desc">Manage stored SSH server keys</string>
+    <string name="ui_settings_libraries_desc">Licenses of the used libraries</string>
+    <string name="ui_settings_contributors_desc">People who build this app</string>
+    <string name="ui_settings_app_desc">Permissions, storage and notifications</string>
+    <string name="ui_settings_export_desc">Save all connections in an encrypted file</string>
+    <string name="ui_settings_import_desc">Restore connections from a backup file</string>
+    <string name="ui_host_searching">Searching the local network…</string>
+    <string name="ui_host_empty">No devices found</string>
+    <string name="ui_folder_current">Current folder</string>
+</resources>

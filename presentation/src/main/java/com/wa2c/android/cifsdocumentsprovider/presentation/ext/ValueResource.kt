@@ -75,6 +75,7 @@ val UiTheme.mode: Int
 fun Language.getLabel(context: Context): String {
     return when (this) {
         Language.ENGLISH -> R.string.enum_language_en
+        Language.GERMAN -> R.string.enum_language_de
         Language.JAPANESE-> R.string.enum_language_ja
         Language.ARABIC -> R.string.enum_language_ar
         Language.SLOVAK -> R.string.enum_language_sk

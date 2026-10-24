@@ -1,0 +1,6 @@
+Erste Version von CIFS Datei-Explorer:
+• Komplett neue Oberfläche (Material 3, Material You, Dunkelmodus)
+• Vollständige deutsche Übersetzung
+• Neuer Startbildschirm mit Verbindungskarten und Schnellstart
+• Übersichtlicher Verbindungseditor mit „Verbindung testen“ und „Speichern“
+• Eigene App-ID: läuft parallel zum Original-CIFS-Documents-Provider

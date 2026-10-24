@@ -1,0 +1,174 @@
+<?xml version="1.1" encoding="utf-8"?>
+<resources>
+    <!-- Language: German -->
+
+    <!-- Common -->
+    <string name="app_summary">Zugriff auf Netzwerkspeicher</string>
+    <string name="general_accept">OK</string>
+    <string name="general_close">Schließen</string>
+    <string name="general_warning">Achtung</string>
+    <string name="general_yes">Ja</string>
+    <string name="general_no">Nein</string>
+    <string name="general_delete">Löschen</string>
+    <string name="general_back">Zurück</string>
+    <string name="general_copy_clipboard_message">In die Zwischenablage kopiert.</string>
+
+    <!-- Home Screen -->
+    <string name="home_open_file">Datei öffnen</string>
+    <string name="home_open_settings">Einstellungen</string>
+    <string name="home_open_file_ng_message">Lege zuerst eine Verbindung an.</string>
+    <string name="home_add_connection_input">Manuell eingeben</string>
+    <string name="home_add_connection_search">Im Netzwerk suchen</string>
+
+    <!-- Edit Screen -->
+    <string name="edit_title">Verbindung</string>
+    <string name="edit_id_title">ID</string>
+    <string name="edit_id_hint">Eindeutiger Name (ohne \&quot;:\&quot; und \&quot;/\&quot;)</string>
+    <string name="edit_name_title">Anzeigename</string>
+    <string name="edit_name_hint">Leer = Hostname</string>
+    <string name="edit_storage_title">Protokoll</string>
+    <string name="edit_settings_section_title">Server</string>
+    <string name="edit_domain_title">Domäne / Arbeitsgruppe</string>
+    <string name="edit_domain_hint">Nur falls benötigt</string>
+    <string name="edit_host_title">Host</string>
+    <string name="edit_host_hint">IP-Adresse oder Hostname</string>
+    <string name="edit_host_select_a11y">Durchsuchen</string>
+    <string name="edit_port_title">Port</string>
+    <string name="edit_port_hint">Leer = Standardport</string>
+    <string name="edit_enable_dfs_label">DFS aktivieren (Distributed File System)</string>
+    <string name="edit_enable_encryption_label">Verschlüsselung aktivieren</string>
+    <string name="edit_directory_search_a11y">Durchsuchen</string>
+    <string name="edit_user_title">Benutzername</string>
+    <string name="edit_user_hint">Nicht nötig bei anonymem Zugriff</string>
+    <string name="edit_password_title">Passwort</string>
+    <string name="edit_password_hint">Nicht nötig bei anonymem Zugriff</string>
+    <string name="edit_anonymous_label">Anonym anmelden (Gast)</string>
+    <string name="edit_key_title">Privater Schlüssel</string>
+    <string name="edit_key_hint">Privater Schlüssel</string>
+    <string name="edit_key_text_none">Nicht verwendet</string>
+    <string name="edit_key_text_file">Datei verknüpft</string>
+    <string name="edit_key_text_import">Importiert</string>
+    <string name="edit_key_input_none">Nicht verwenden</string>
+    <string name="edit_key_input_file">Datei verknüpfen</string>
+    <string name="edit_key_input_import_file">Datei importieren</string>
+    <string name="edit_key_input_import_text">Eingeben und importieren</string>
+    <string name="edit_passphrase_title">Passphrase des Schlüssels</string>
+    <string name="edit_passphrase_hint">Leer lassen, falls keine gesetzt ist</string>
+    <string name="edit_ignore_known_hosts_label">Vertrauenswürdige SSH-Hosts nicht prüfen</string>
+    <string name="edit_encoding_title">Zeichenkodierung</string>
+    <string name="edit_ftp_mode_title">Aktiver Modus</string>
+    <string name="edit_ftps_implicit_label">Implizites SSL/TLS</string>
+    <string name="edit_folder_title">Ordner</string>
+    <string name="edit_folder_hint">Leer = Stammverzeichnis \&quot;/\&quot;</string>
+    <string name="edit_option_section_title">Optionen</string>
+    <string name="edit_option_safe_transfer_label">Sichere Datenübertragung</string>
+    <string name="edit_option_read_only_label">Nur lesen</string>
+    <string name="edit_option_extension_label">Dateiendung beim Speichern ergänzen</string>
+    <string name="edit_option_thumbnail_label">Vorschaubilder</string>
+    <string name="edit_option_thumbnail_image">Bilder</string>
+    <string name="edit_option_thumbnail_audio">Audio</string>
+    <string name="edit_option_thumbnail_video">Videos</string>
+    <string name="edit_option_thumbnail_disabled">Deaktiviert</string>
+    <string name="edit_info_section_title">Informationen</string>
+    <string name="edit_storage_uri_title">Speicher-URI</string>
+    <string name="edit_provider_uri_title">Freigabe-URI</string>
+    <string name="edit_check_connection_button">Verbindung testen</string>
+    <string name="edit_check_connection_ok_message">Verbindung erfolgreich.</string>
+    <string name="edit_check_connection_wn_message">Die Einstellungen enthalten einen Fehler.</string>
+    <string name="edit_check_connection_ng_message">Verbindung fehlgeschlagen.</string>
+    <string name="edit_check_save_ng_input_message">Name und Host sind Pflichtfelder.</string>
+    <string name="edit_check_save_ng_invalid_id_message">Die ID ist ungültig.</string>
+    <string name="edit_check_save_ng_duplicate_id_message">Diese ID ist bereits vergeben.</string>
+    <string name="edit_check_key_ng_failed_messaged">Auf den privaten Schlüssel konnte nicht zugegriffen werden.</string>
+    <string name="edit_check_key_ng_invalid_messaged">Der private Schlüssel konnte nicht gelesen werden.</string>
+    <string name="edit_check_key_ok_messaged">Der private Schlüssel ist gültig.</string>
+    <string name="edit_save_button">Speichern</string>
+    <string name="edit_back_confirmation_message">Änderungen verwerfen?</string>
+    <string name="edit_delete_confirmation_message">Diese Verbindung löschen?</string>
+    <string name="edit_warning_key_import_message">Die Sicherheit des importierten Schlüssels kann nicht garantiert werden.\nBitte gehe sorgfältig damit um.</string>
+    <string name="edit_warning_known_host_message">Mit diesem SSH-Server wird zum ersten Mal verbunden oder sein Schlüssel hat sich geändert.\nMöchtest du dem Server vertrauen und verbinden?</string>
+
+    <!-- Host Screen -->
+    <string name="host_title">Geräte im Netzwerk</string>
+    <string name="host_set_manually">Manuell eingeben</string>
+    <string name="host_select_confirmation_message">Was soll ins Formular übernommen werden?</string>
+    <string name="host_select_host_name">Hostname</string>
+    <string name="host_select_ip_address">IP-Adresse</string>
+    <string name="host_sort_button">Sortieren</string>
+    <string name="host_reload_button">Neu suchen</string>
+    <string name="host_sort_type_detection_ascend">Fundreihenfolge (aufsteigend)</string>
+    <string name="host_sort_type_detection_descend">Fundreihenfolge (absteigend)</string>
+    <string name="host_sort_type_host_name_ascend">Hostname (A–Z)</string>
+    <string name="host_sort_type_host_name_descend">Hostname (Z–A)</string>
+    <string name="host_sort_type_ip_address_ascend">IP-Adresse (aufsteigend)</string>
+    <string name="host_sort_type_ip_address_descend">IP-Adresse (absteigend)</string>
+
+    <!-- Folder Screen -->
+    <string name="folder_title">Ordner wählen</string>
+    <string name="folder_set">Diesen Ordner verwenden</string>
+    <string name="folder_reload_button">Neu laden</string>
+    <string name="folder_list_empty">Keine Unterordner</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_title">Einstellungen</string>
+    <string name="settings_section_set">Allgemein</string>
+    <string name="settings_set_theme">Design</string>
+    <string name="settings_set_language">Sprache</string>
+    <string name="settings_open_file_limit">Max. gleichzeitig geöffnete Dateien\n(Neustart der App erforderlich)</string>
+    <string name="settings_set_use_foreground">Benachrichtigung beim Öffnen von Dateien anzeigen</string>
+    <string name="settings_set_use_as_local">Als lokalen Speicher einbinden\n(Neustart des Geräts erforderlich)</string>
+    <string name="settings_section_transfer">Import / Export</string>
+    <string name="settings_transfer_export">Verbindungen exportieren</string>
+    <string name="settings_transfer_export_dialog_password">Passwort (1–32 Zeichen)</string>
+    <string name="settings_transfer_export_dialog_check">Zu exportierende Verbindungen</string>
+    <string name="settings_transfer_export_dialog_button">Exportieren</string>
+    <string name="settings_transfer_export_message">%1$d Verbindung(en) exportiert.</string>
+    <string name="settings_transfer_export_error">Export fehlgeschlagen.</string>
+    <string name="settings_transfer_import">Verbindungen importieren</string>
+    <string name="settings_transfer_import_dialog_password">Passwort (1–32 Zeichen)</string>
+    <string name="settings_transfer_import_dialog_option_replace">Alle vorhandenen ersetzen</string>
+    <string name="settings_transfer_import_dialog_option_duplicate">Bei gleicher ID</string>
+    <string name="settings_transfer_import_dialog_option_overwrite">Überschreiben</string>
+    <string name="settings_transfer_import_dialog_option_ignore">Überspringen</string>
+    <string name="settings_transfer_import_dialog_option_append">Neue ID vergeben (ändert Freigabe-URI)</string>
+    <string name="settings_transfer_import_dialog_button">Importieren</string>
+    <string name="settings_transfer_import_message">%1$d Verbindung(en) importiert.</string>
+    <string name="settings_transfer_import_error">Import fehlgeschlagen.</string>
+    <string name="settings_section_info">Informationen</string>
+    <string name="settings_info_known_hosts">Vertrauenswürdige SSH-Hosts</string>
+    <string name="settings_info_known_hosts_host">Host</string>
+    <string name="settings_info_known_hosts_type">Schlüsseltyp</string>
+    <string name="settings_info_known_hosts_key">Schlüssel</string>
+    <string name="settings_info_known_hosts_delete_confirmation_message">Diesen Host entfernen?</string>
+    <string name="settings_info_libraries">Open-Source-Bibliotheken</string>
+    <string name="settings_info_contributors">Mitwirkende</string>
+    <string name="settings_info_app">App-Info</string>
+
+    <!-- Send Screen -->
+    <string name="send_title">Dateiübertragung</string>
+    <string name="send_close_button">Schließen</string>
+    <string name="send_action_cancel">Abbrechen</string>
+    <string name="send_action_retry">Erneut versuchen</string>
+    <string name="send_action_remove">Entfernen</string>
+    <string name="send_state_ready">Bereit</string>
+    <string name="send_state_overwrite">Datei existiert bereits</string>
+    <string name="send_state_success">Erfolgreich</string>
+    <string name="send_state_failure">Fehlgeschlagen</string>
+    <string name="send_state_cancel">Abgebrochen</string>
+    <string name="send_exit_confirmation_message">Alle Übertragungen abbrechen und die App beenden.</string>
+    <string name="send_overwrite_confirmation_message">%1$d Datei(en) überschreiben.</string>
+
+    <!-- DocumentsProvider -->
+    <string name="provider_error_message">Ein Fehler ist aufgetreten.</string>
+
+    <!-- Notification -->
+    <string name="notification_channel_name_provider">Geöffnete Dateien</string>
+    <string name="notification_title_provider">Datei wird geöffnet</string>
+    <string name="notification_channel_name_send">Datenübertragung</string>
+    <string name="notification_title_send_completed">Abgeschlossen</string>
+
+    <!-- Theme Enum -->
+    <string name="enum_theme_default">Systemstandard</string>
+    <string name="enum_theme_light">Hell</string>
+    <string name="enum_theme_dark">Dunkel</string>
+</resources>

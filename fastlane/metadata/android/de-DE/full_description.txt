@@ -1,0 +1,22 @@
+<b>CIFS Datei-Explorer</b> bindet deine Netzwerkfreigaben – NAS, Windows-PC, Samba-Server – direkt in die Android-Dateien-App ein. Kein zusätzlicher Dateimanager nötig: Freigaben erscheinen wie ein eigener Speicherort in „Dateien“ und in jedem Dateiauswahl-Dialog.
+
+<b>Funktionen</b>
+<ul>
+<li>SMB 2/3 (smbj, jCIFS-NG) und SMB 1, zusätzlich FTP, FTPS und SFTP</li>
+<li>Integration über das Storage Access Framework (SAF) – funktioniert mit allen Apps, die Dateien öffnen oder speichern</li>
+<li>Videos und Musik direkt vom NAS streamen, inklusive Vorspulen</li>
+<li>Geräte im lokalen Netzwerk automatisch finden</li>
+<li>Mehrere Verbindungen, per Drag &amp; Drop sortierbar</li>
+<li>Verschlüsselter Export/Import der Verbindungen</li>
+<li>Moderne Material-3-Oberfläche mit dynamischen Farben (Material You) und Dunkelmodus</li>
+<li>Vollständig auf Deutsch, weitere Sprachen enthalten</li>
+</ul>
+
+<b>Hinweise</b>
+<ul>
+<li>Die App selbst ist kein Dateimanager – Dateien verwaltest du in der Dateien-App oder jeder anderen SAF-fähigen App.</li>
+<li>Apps, die ausschließlich lokalen Speicher erwarten, funktionieren eventuell nicht.</li>
+</ul>
+
+Basiert auf <a href="https://github.com/wa2c/cifs-documents-provider">CIFS Documents Provider</a> von wa2c (MIT-Lizenz).
+Quellcode: https://github.com/quompacc/cifs-datei-explorer

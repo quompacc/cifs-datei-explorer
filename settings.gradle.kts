@@ -7,7 +7,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "CIFS Documents Provider"
+rootProject.name = "CIFS Datei-Explorer"
 
 include(":app")
 include(":common")

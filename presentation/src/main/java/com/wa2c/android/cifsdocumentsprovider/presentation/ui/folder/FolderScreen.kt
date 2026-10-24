@@ -15,6 +15,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -132,6 +135,9 @@ fun FolderScreenContainer(
                 .fillMaxHeight()
                 .padding(paddingValues)
         ) {
+            if (isLoading) {
+                LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+            }
             Box(
                 modifier = Modifier.weight(weight = 1f, fill = true)
             ) {
@@ -146,7 +152,6 @@ fun FolderScreenContainer(
                                 UpFolderItem(
                                     onClick = onClickUp
                                 )
-                                DividerThin()
                             }
                         }
                         items(items = fileList) { file ->
@@ -154,7 +159,6 @@ fun FolderScreenContainer(
                                 item = file,
                                 onClick = { onClickItem(file) },
                             )
-                            DividerThin()
                         }
                     }
                 }
@@ -173,24 +177,17 @@ fun FolderScreenContainer(
 private fun UpFolderItem(
     onClick: () -> Unit,
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = Theme.Sizes.S, vertical = Theme.Sizes.SS)
-            .clickable(enabled = true, onClick = onClick)
-    ) {
-        Icon(
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_folder_up),
-            "Folder",
-            modifier = Modifier.size(40.dp),
-        )
-        Text(
-            text = "..",
-            fontSize = 15.sp,
-            modifier = Modifier
-                .padding(start = Theme.Sizes.S)
-        )
-    }
+    ListItem(
+        headlineContent = { Text(text = "..") },
+        leadingContent = {
+            Icon(
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_folder_up),
+                contentDescription = "Folder",
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        },
+        modifier = Modifier.clickable(enabled = true, onClick = onClick),
+    )
 }
 
 @Composable
@@ -198,24 +195,24 @@ private fun FolderItem(
     item: RemoteFile,
     onClick: () -> Unit,
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = Theme.Sizes.S, vertical = Theme.Sizes.SS)
-            .clickable(enabled = true, onClick = onClick)
-    ) {
-        Icon(
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_folder),
-            "Folder",
-            modifier = Modifier.size(40.dp),
-        )
-        Text(
-            text = item.name,
-            fontSize = 15.sp,
-            modifier = Modifier
-                .padding(start = Theme.Sizes.S)
-        )
-    }
+    ListItem(
+        headlineContent = { Text(text = item.name) },
+        leadingContent = {
+            Icon(
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_folder),
+                contentDescription = "Folder",
+                tint = MaterialTheme.colorScheme.primary,
+            )
+        },
+        trailingContent = {
+            Icon(
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_chevron_right),
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        },
+        modifier = Modifier.clickable(enabled = true, onClick = onClick),
+    )
 }
 
 /**

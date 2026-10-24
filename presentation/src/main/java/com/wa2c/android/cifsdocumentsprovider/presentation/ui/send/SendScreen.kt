@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -35,6 +36,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -153,7 +155,10 @@ fun SendScreenContainer(
             Box(
                 modifier = Modifier.weight(weight = 1f, fill = true)
             ) {
-                LazyColumn {
+                LazyColumn(
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(Theme.Sizes.M),
+                    verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(Theme.Sizes.S),
+                ) {
                     items(items = sendDataList) { sendData ->
                         SendDataItem(
                             sendData = sendData,
@@ -161,24 +166,22 @@ fun SendScreenContainer(
                             onClickRetry = onClickRetry,
                             onClickRemove = onClickRemove,
                         )
-                        DividerThin()
                     }
                 }
             }
 
-            DividerNormal()
-
-            Column(
-                modifier = Modifier
-                    .padding(Theme.Sizes.S),
+            androidx.compose.material3.Surface(
+                color = MaterialTheme.colorScheme.surfaceContainer,
+                modifier = Modifier.fillMaxWidth(),
             ) {
-                Button(
+                androidx.compose.material3.OutlinedButton(
                     onClick = onClickCancelAll,
-                    shape = RoundedCornerShape(Theme.Sizes.SS),
                     enabled = sendDataList.any { it.state.isCancelable },
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(vertical = 14.dp),
                     modifier = Modifier
+                        .navigationBarsPadding()
+                        .padding(horizontal = Theme.Sizes.M, vertical = 12.dp)
                         .fillMaxWidth()
-                        .padding(top = Theme.Sizes.S)
                 ) {
                     Text(text = stringResource(id = R.string.send_action_cancel))
                 }
@@ -199,28 +202,36 @@ private fun SendDataItem(
 ) {
     val showPopup = remember { mutableStateOf(false) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(enabled = true, onClick = {
-                showPopup.value = true
-            })
-            .padding(horizontal = Theme.Sizes.M, vertical = Theme.Sizes.S)
+    androidx.compose.material3.Card(
+        onClick = { showPopup.value = true },
+        shape = MaterialTheme.shapes.large,
+        colors = androidx.compose.material3.CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+        ),
+        modifier = Modifier.fillMaxWidth(),
     ) {
-        Text(
-            text = sendData.name,
-            style = MaterialTheme.typography.titleLarge,
-        )
-        Text(
-            text = sendData.getSummaryText(context = LocalContext.current),
-            style = MaterialTheme.typography.bodyMedium,
-        )
-        LinearProgressIndicator(
-            progress = { (sendData.progress.toFloat() / 100) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .alpha(if (sendData.state.inProgress) 1f else 0f),
-        )
+        Column(
+            modifier = Modifier.padding(Theme.Sizes.M)
+        ) {
+            Text(
+                text = sendData.name,
+                style = MaterialTheme.typography.titleMedium,
+                maxLines = 1,
+                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+            )
+            Text(
+                text = sendData.getSummaryText(context = LocalContext.current),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            LinearProgressIndicator(
+                progress = { (sendData.progress.toFloat() / 100) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = Theme.Sizes.S)
+                    .alpha(if (sendData.state.inProgress) 1f else 0f),
+            )
+        }
     }
 
     if (showPopup.value) {

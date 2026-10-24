@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.aboutlibraries)
+    alias(libs.plugins.paparazzi)
 }
 
 val applicationId: String by rootProject.extra

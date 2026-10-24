@@ -2,7 +2,16 @@ package com.wa2c.android.cifsdocumentsprovider.presentation.ui.host
 
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.style.TextAlign
+import com.wa2c.android.cifsdocumentsprovider.presentation.ui.common.IconTile
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -43,7 +52,6 @@ import com.wa2c.android.cifsdocumentsprovider.presentation.ui.common.AppSnackbar
 import com.wa2c.android.cifsdocumentsprovider.presentation.ui.common.BottomButton
 import com.wa2c.android.cifsdocumentsprovider.presentation.ui.common.CommonDialog
 import com.wa2c.android.cifsdocumentsprovider.presentation.ui.common.DialogButton
-import com.wa2c.android.cifsdocumentsprovider.presentation.ui.common.DividerThin
 import com.wa2c.android.cifsdocumentsprovider.presentation.ui.common.LoadingIconButton
 import com.wa2c.android.cifsdocumentsprovider.presentation.ui.common.SingleChoiceDialog
 import com.wa2c.android.cifsdocumentsprovider.presentation.ui.common.Theme
@@ -187,8 +195,12 @@ fun HostScreenContainer(
                 .fillMaxHeight()
                 .padding(paddingValues)
         ) {
+            if (isLoading) {
+                LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+            }
             HostList(
                 hostList = hostList,
+                isLoading = isLoading,
                 onClickItem = onClickItem,
             )
 
@@ -208,9 +220,38 @@ fun HostScreenContainer(
 @Composable
 fun ColumnScope.HostList(
     hostList: List<HostData>,
+    isLoading: Boolean = false,
     onClickItem: (HostData) -> Unit,
 ) {
+    if (hostList.isEmpty()) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .weight(weight = 1f, fill = true)
+                .fillMaxWidth()
+                .padding(Theme.Sizes.LL),
+        ) {
+            IconTile(
+                iconRes = R.drawable.ic_lan,
+                size = 88.dp,
+                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Text(
+                text = stringResource(id = if (isLoading) R.string.ui_host_searching else R.string.ui_host_empty),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(top = Theme.Sizes.M),
+            )
+        }
+        return
+    }
+
     LazyColumn(
+        contentPadding = PaddingValues(Theme.Sizes.M),
+        verticalArrangement = Arrangement.spacedBy(Theme.Sizes.S),
         modifier = Modifier
             .weight(weight = 1f, fill = true)
     ) {
@@ -219,10 +260,8 @@ fun ColumnScope.HostList(
                 hostData = hostData,
                 onClick = { onClickItem(hostData) },
             )
-            DividerThin()
         }
     }
-
 }
 
 @Composable
@@ -230,35 +269,37 @@ private fun HostItem(
     hostData: HostData,
     onClick: () -> Unit,
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(enabled = true, onClick = onClick)
-            .padding(horizontal = Theme.Sizes.M, vertical = Theme.Sizes.S)
-    ) {
-        Icon(
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_host),
-            "Host",
-            modifier = Modifier.size(48.dp),
-        )
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = Theme.Sizes.S)
-        ) {
-
+    ListItem(
+        headlineContent = {
             Text(
                 text = hostData.hostName,
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.titleMedium,
             )
-            Text(
-                text = hostData.ipAddress,
-                style = MaterialTheme.typography.bodyMedium,
+        },
+        supportingContent = if (hostData.hostName != hostData.ipAddress) {
+            { Text(text = hostData.ipAddress) }
+        } else {
+            null
+        },
+        leadingContent = {
+            IconTile(
+                iconRes = R.drawable.ic_host,
+                size = 44.dp,
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             )
-
-        }
-
-    }
+        },
+        trailingContent = {
+            Icon(
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_chevron_right),
+                contentDescription = null,
+            )
+        },
+        colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
+        modifier = Modifier
+            .clip(MaterialTheme.shapes.large)
+            .clickable(enabled = true, onClick = onClick),
+    )
 }
 
 /**

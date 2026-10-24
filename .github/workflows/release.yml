@@ -1,0 +1,71 @@
+# Release-Build: bei jedem Tag vX.Y.Z eine signierte APK bauen und als GitHub-Release
+# veröffentlichen. Der Release-Text stammt aus dem Fastlane-Changelog des versionCodes.
+# Anschließend wird das eigene F-Droid-Repo aktualisiert.
+#
+# Benötigte Repository-Secrets (Settings → Secrets and variables → Actions):
+#   KEYSTORE_B64       Release-Keystore, base64-kodiert
+#   KEYSTORE_PASSWORD  Keystore-Passwort
+#   KEY_ALIAS          Alias des Schlüssels
+#   KEY_PASSWORD       Schlüssel-Passwort
+
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Keystore aus Secret wiederherstellen
+        run: echo "${{ secrets.KEYSTORE_B64 }}" | base64 -d > cifs-datei-explorer.jks
+
+      - name: Tag und Version abgleichen
+        run: |
+          NAME=$(grep -oP 'appVersionName by extra \("\K[^"]+' build.gradle.kts)
+          if [ "v$NAME" != "$TAG" ]; then
+            echo "::error::Tag $TAG passt nicht zu appVersionName $NAME in build.gradle.kts"
+            exit 1
+          fi
+
+      - name: Signierte Release-APK bauen
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon :app:assembleRelease
+          mv app/build/outputs/apk/release/CIFS-Datei-Explorer-*-release.apk "CIFS-Datei-Explorer-${TAG#v}.apk"
+          sha256sum CIFS-Datei-Explorer-*.apk > "CIFS-Datei-Explorer-${TAG#v}.apk.sha256"
+
+      - name: GitHub-Release anlegen
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          CODE=$(grep -oP 'appVersionCode by extra \(\K[0-9]+' build.gradle.kts)
+          NOTES=fastlane/metadata/android/de-DE/changelogs/${CODE}.txt
+          [ -f "$NOTES" ] || NOTES=/dev/null
+          gh release create "$TAG" CIFS-Datei-Explorer-*.apk CIFS-Datei-Explorer-*.apk.sha256 \
+            --title "CIFS Datei-Explorer ${TAG#v}" --notes-file "$NOTES"
+
+  # Eigenes F-Droid-Repo mit dem neuen Release aktualisieren
+  fdroid:
+    needs: release
+    uses: ./.github/workflows/fdroid-repo.yml
+    secrets: inherit

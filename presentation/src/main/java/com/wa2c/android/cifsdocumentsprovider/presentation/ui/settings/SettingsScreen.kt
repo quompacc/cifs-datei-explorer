@@ -164,7 +164,7 @@ fun SettingsScreen(
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SettingsScreenContainer(
+internal fun SettingsScreenContainer(
     snackbarHostState: SnackbarHostState,
     theme: MutableState<UiTheme>,
     language: MutableState<Language>,

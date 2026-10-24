@@ -48,10 +48,12 @@ import com.wa2c.android.cifsdocumentsprovider.presentation.ui.settings.SettingsV
 @Composable
 internal fun SettingsImportItem(
     text: String,
+    supportingText: String? = null,
+    iconRes: Int? = null,
 ) {
     val showDialog = remember { mutableStateOf(false) }
 
-    SettingsItem(text = text) {
+    SettingsItem(text = text, supportingText = supportingText, iconRes = iconRes) {
         showDialog.value = true
     }
 

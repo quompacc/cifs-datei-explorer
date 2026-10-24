@@ -1,0 +1,1 @@
+Netzwerkfreigaben (SMB) direkt in der Android-Dateien-App.

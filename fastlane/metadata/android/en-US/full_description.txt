@@ -1,44 +1,22 @@
-<strong>CIFS Documents Provider</strong> is an Android app to provide access to shared online storage.
+<b>CIFS Datei-Explorer</b> adds your network shares – NAS, Windows PC, Samba server – directly to the Android Files app. No extra file manager needed: shares show up as a storage location in "Files" and in every file picker.
 
-<strong><font color="#339933">[Features]</font></strong>
+<b>Features</b>
+<ul>
+<li>SMB 2/3 (smbj, jCIFS-NG) and SMB 1, plus FTP, FTPS and SFTP</li>
+<li>Integration via the Storage Access Framework (SAF) – works with every app that opens or saves files</li>
+<li>Stream videos and music directly from your NAS, including seeking</li>
+<li>Discover devices in your local network</li>
+<li>Multiple connections, reorderable via drag &amp; drop</li>
+<li>Encrypted export/import of connections</li>
+<li>Modern Material 3 design with dynamic colors (Material You) and dark mode</li>
+<li>Fully translated into German, more languages included</li>
+</ul>
 
-* Provide other apps with access to shared network storage via the Storage Access Framework (SAF).
-* Provides access to files and directories.
-* Supports SMB (Samba, Common Internet File System (CIFS), Windows Network Shared Folder), FTP, FTPS and SFTP.
-* Share and transfer files on online storage.
-* Multiple connection settings can be stored.
-* Supports connection settings export/import.
-* Supports dark mode.
-* Can be treated as local storage (configuration required)
-* Notifications can be displayed to prevent task kills. (configuration required)
+<b>Notes</b>
+<ul>
+<li>The app itself is not a file manager – manage your files in the Files app or any other SAF-capable app.</li>
+<li>Apps that only support local storage may not work.</li>
+</ul>
 
-<strong><font color="#339933">[Objective]</font></strong>
-
-* Import and export of files created by the app.
-* Manage files and directories with the Storage Manager app.
-* Play music, videos, etc. with the media player app.
-* Direct saving of photos taken with the camera app.
-
-<strong><font color="#339933">[Note]</font></strong>
-
-* No file management function in this app.
-* To use this app, your apps must support SAF (Storage Access Framework).
-* Apps that assume local storage may not work properly.
-* Apps may crash when specified as a storage destination for streaming audio or video data.
-
-<strong><font color="#339933">[How to use]</font></strong>
-
-See the following page. (Japanese)
-https://github.com/wa2c/cifs-documents-provider/wiki/Manual-ja
-
-<strong><font color="#339933">[Sources]</font></strong>
-
-GitHub
-https://github.com/wa2c/cifs-documents-provider
-
-<strong><font color="#339933">[Issues]</font></strong>
-
-GitHub Issue
-https://github.com/wa2c/cifs-documents-provider/issues
-
-Please post here if you have bug reports, Future requests, or other information.
+Based on <a href="https://github.com/wa2c/cifs-documents-provider">CIFS Documents Provider</a> by wa2c (MIT license).
+Source code: https://github.com/quompacc/cifs-datei-explorer

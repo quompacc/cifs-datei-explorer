@@ -11,6 +11,8 @@ enum class Language(
 ) {
     /** English */
     ENGLISH("en"),
+    /** German */
+    GERMAN("de"),
     /** Japanese */
     JAPANESE("ja"),
     /** Arabic */

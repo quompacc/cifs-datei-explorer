@@ -21,10 +21,15 @@ internal fun <T> SettingsSingleChoiceItem(
     title: String,
     items: List<OptionItem<T>>,
     selectedItem: MutableState<T>,
+    iconRes: Int? = null,
 ) {
     val showDialog = remember { mutableStateOf(false) }
 
-    SettingsItem(text = title) {
+    SettingsItem(
+        text = title,
+        supportingText = items.firstOrNull { it.value == selectedItem.value }?.label,
+        iconRes = iconRes,
+    ) {
         showDialog.value = true
     }
 

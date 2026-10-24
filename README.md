@@ -1,41 +1,53 @@
-CIFS Documents Provider
-=======================
+CIFS Datei-Explorer
+===================
 
-## About
-
-**CIFS Documents Provider** is an Android app to provide access to shared online storage.
+**SMB-Netzwerkfreigaben direkt in der Android-Dateien-App.** NAS, Windows-PC oder Samba-Server
+erscheinen als eigener Speicherort in „Dateien“ und in jedem Dateiauswahl-Dialog – ohne extra Dateimanager.
 
 <div style="display: flex">
-<img width="240" alt="Home Screen" src="./fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" />
-<img width="240" alt="Home Screen" src="./fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" /> 
-<img width="240" alt="Home Screen" src="./fastlane/metadata/android/en-US/images/phoneScreenshots/5.png" />
+<img width="200" alt="Startbildschirm" src="./fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" />
+<img width="200" alt="Verbindung bearbeiten" src="./fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" />
+<img width="200" alt="Einstellungen" src="./fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" />
 </div>
 
-## Download
+Fork von [CIFS Documents Provider](https://github.com/wa2c/cifs-documents-provider) (wa2c, MIT-Lizenz) mit
+komplett überarbeiteter Material-3-Oberfläche und deutscher Übersetzung. Eigene App-ID (`de.cifsdateiexplorer`),
+läuft daher parallel zum Original.
 
-### Google Play
+## Installation über F-Droid
 
-[<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" height="80" />](https://play.google.com/store/apps/details?id=com.wa2c.android.cifsdocumentsprovider)
+CIFS Datei-Explorer hat ein eigenes F-Droid-Repo, das bei jedem Release automatisch aktualisiert wird.
 
-### F-Droid
+1. In der F-Droid-App: **Einstellungen → Paketquellen → +**
+2. Adresse: `https://raw.githubusercontent.com/quompacc/cifs-datei-explorer/fdroid/repo`
+3. Fingerprint: `A3D02F8518A55C7ABB6EFD41A940211B482E971E6CAF7B3D2DAA8BE85A3CF19F`
 
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80" />](https://f-droid.org/packages/com.wa2c.android.cifsdocumentsprovider/)
+Oder auf dem Handy direkt öffnen:
+[Repo hinzufügen](fdroidrepos://raw.githubusercontent.com/quompacc/cifs-datei-explorer/fdroid/repo?fingerprint=A3D02F8518A55C7ABB6EFD41A940211B482E971E6CAF7B3D2DAA8BE85A3CF19F)
 
-### Amazon Appstore
+Alternativ: APK aus den [Releases](https://github.com/quompacc/cifs-datei-explorer/releases) oder über
+[Obtainium](https://github.com/ImranR98/Obtainium) mit der GitHub-URL des Repos.
 
-[<img src="https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/devportal2/res/images/amazon-appstore-badge-english-black.png" alt="Get it on Amazon Appstore" height="55">](https://www.amazon.com/gp/product/B09D4264PB)
+## Release erstellen
 
-### Github
+1. In `build.gradle.kts` `appVersionName` und `appVersionCode` erhöhen.
+2. Changelog anlegen: `fastlane/metadata/android/de-DE/changelogs/<versionCode>.txt` (und `en-US`).
+3. Committen, Tag setzen und pushen:
+   ```bash
+   git tag v1.0.0
+   git push origin main --tags
+   ```
+4. GitHub Actions baut die signierte APK, legt das Release an und aktualisiert das F-Droid-Repo (Branch `fdroid`).
 
-[<img src="https://censorship.no/img/github-badge.png" alt="Get it on Github" height="80">](https://github.com/wa2c/cifs-documents-provider/releases)
+Signiert wird mit dem Release-Keystore aus den Repository-Secrets `KEYSTORE_B64`, `KEYSTORE_PASSWORD`,
+`KEY_ALIAS` und `KEY_PASSWORD`. Lokal liest der Build dieselben Werte aus `local.properties`;
+ohne Keystore entsteht eine unsignierte Release-APK.
 
-## Release History (APK Download)
+## Entwicklung
 
-* [Release](https://github.com/wa2c/cifs-documents-provider/releases)
-
-## Source Code
-
-* [GitHub](https://github.com/wa2c/cifs-documents-provider)
+* Debug-APK: `./gradlew assembleDebug`
+* Screenshots der Oberfläche ohne Gerät rendern (Paparazzi): `./gradlew :presentation:recordPaparazziDebug`
+  → `presentation/src/test/snapshots/images/`
 
 ## Module Structure
 

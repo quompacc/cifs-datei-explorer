@@ -1,1 +1,1 @@
-CIFS Documents Provider
+CIFS Datei-Explorer

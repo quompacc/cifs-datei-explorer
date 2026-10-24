@@ -58,10 +58,12 @@ import java.time.format.DateTimeFormatter
 @Composable
 internal fun SettingsExportItem(
     text: String,
+    supportingText: String? = null,
+    iconRes: Int? = null,
 ) {
     val showDialog = remember { mutableStateOf(false) }
 
-    SettingsItem(text = text) {
+    SettingsItem(text = text, supportingText = supportingText, iconRes = iconRes) {
         showDialog.value = true
     }
 
@@ -103,7 +105,7 @@ private fun ExportDialog(
                     val format = DateTimeFormatter.ofPattern("yyyy-MM-dd")
                     val dateText = LocalDateTime.now().format(format)
                     exportLauncher.launch(
-                        "CIFSDocumentsProvider_${dateText}.settings"
+                        "CIFS-Datei-Explorer_${dateText}.settings"
                     )
                 }
             )

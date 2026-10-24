@@ -43,11 +43,9 @@ fun CommonDialog(
             if (!confirmButtons.isNullOrEmpty()) {
                 Row {
                     confirmButtons.forEach {
-                        Button(
+                        TextButton(
                             onClick = it.onClick,
                             enabled = it.enabled,
-                            contentPadding = PaddingValues(Theme.Sizes.S),
-                            modifier = Modifier.padding(start = Theme.Sizes.S)
                         ) {
                             Text(it.label)
                         }

@@ -6,12 +6,12 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.ActivityCompat
 import androidx.core.util.Consumer
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
     private val workManager: WorkManager = WorkManager.getInstance(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
         // request notification permission for the first time if not enabled.
@@ -62,9 +63,6 @@ class MainActivity : AppCompatActivity() {
                     this@MainActivity.removeOnNewIntentListener(consumer)
                 }
             }
-
-            @Suppress("DEPRECATION")
-            window.statusBarColor = Theme.Colors.StatusBackground.toArgb()
 
             Theme.AppTheme(
                 darkTheme = mainViewModel.uiThemeFlow.collectAsStateWithLifecycle().value.isDark()
