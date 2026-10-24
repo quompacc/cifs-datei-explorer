@@ -12,8 +12,8 @@ val androidCompileSdk by extra (37)
 val androidTargetSdk by extra (36)
 val androidMinSdk by extra (26)
 // Version of CIFS Datei-Explorer (fork restarts at 1.0.0)
-val appVersionName by extra ("1.0.1")
-val appVersionCode by extra (2)
+val appVersionName by extra ("1.0.2")
+val appVersionCode by extra (3)
 
 buildscript {
     repositories {
